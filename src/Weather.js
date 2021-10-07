@@ -32,43 +32,74 @@ export default function Weather() {
   }
 
   function displayForecast() {
-  
+  if (temperature) {
       return (
-        <ul>
-          <li>Temperature: {temperature}°F</li>
-          <li className="desc">Description: {description}</li>
-          <li>Wind: {wind} m/h</li>
-          <li>Humidity: {humidity}%</li>
-          <li>
+        <ul className="current-forecast">
+          <li className="ps-2 pe-2">Temperature: {temperature}°F</li>
+          <li className="desc ps-2 pe-2">Description: {description}</li>
+          <li className="ps-2 pe-2">Wind: {wind} m/h</li>
+          <li className="ps-2 pe-2">Humidity: {humidity}%</li>
+          <li className="ps-2">
             <img src={iconImg} />
           </li>
         </ul>
       );
-    
+      } else {
+          return (
+            <ul className="current-forecast">
+              <li className="pe-2">Temperature: </li>
+              <li className="ps-2 pe-2">Description: </li>
+              <li className="ps-2 pe-2">Wind: </li>
+              <li className="ps-2">Humidity: </li>
+            </ul>
+          );
+      }
   }
 
   return (
-    <div className="weatherReturn">
+    <div className="Weather">
       <div className="weather-app-wrapper">
         <div className="weather-app">
-          <h2>Weather App</h2>
-          <form className="weatherForm">
-              <div className="row">
-                  <div className="col-9">
-            <input
-              type="text"
-              placeholder="enter city"
-              onChange={handleSubmit}
-              required
-            />
+          <form class="mb-3">
+            <div className="row">
+              <div className="col-9">
+                <input
+                  type="search"
+                  placeholder="Type a city..."
+                  className="form-control"
+                  autoComplete="off"
+                  onChange={handleSubmit}
+                />
+              </div>
+              <div className="col-3">
+                <input
+                  type="submit"
+                  value="search"
+                  className="btn btn-primary w-100"
+                  onClick={searchCity}
+                />
+              </div>
             </div>
-            <div className="col-3">
-            <input type="submit" value="Search" className="w-50" onClick={searchCity} />
-          </div>
-          </div>
           </form>
-          {displayForecast()}
+          <div className="overview"></div>
+          <div className="row">
+            <div className="col-6">
+              <div className="d-flex weather-temperature">
+                {displayForecast()}
+              </div>
+            </div>
+
+            <div className="weather-forecast"></div>
+          </div>
         </div>
+
+        <p>
+          {" "}
+          <a href="https://github.com/FallJ/react-weather-app" target="_blank">
+            Open-source code
+          </a>
+          , by Julie Fallan
+        </p>
       </div>
     </div>
   );

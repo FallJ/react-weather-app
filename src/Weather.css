@@ -28,12 +28,18 @@
   );
 }
 
-h1 {
-  margin-bottom: 20px;
-  padding-bottom: 10px;
+ul {
+    list-style: none;
+}
+.current-forecast {
+    display: flex;
+    text-align: center;  
+}
+.desc {
+  text-transform: capitalize;
 }
 
 input {
-  background: #eaf6f6;
+  
   border-radius: 5px;
 }
