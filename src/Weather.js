@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import 'bootstrap/dist/css/bootstrap.css';
+import ReactAnimatedWeather from "react-animated-weather";
 
 import "./Weather.css";
 
@@ -46,12 +47,15 @@ export default function Weather() {
       );
       } else {
           return (
+            <div>
+            <h5 className="text-center">Current Forecast</h5>
             <ul className="current-forecast">
-              <li className="pe-2">Temperature: </li>
-              <li className="ps-2 pe-2">Description: </li>
-              <li className="ps-2 pe-2">Wind: </li>
-              <li className="ps-2">Humidity: </li>
+            <li className="pe-3">Temperature: 65°F</li>
+              <li className="ps-3 pe-3">Description: Overcast Clouds </li>
+              <li className="ps-3 pe-3">Wind: 2 m/h</li>
+              <li className="ps-3">Humidity: 5%</li>
             </ul>
+            </div>
           );
       }
   }
@@ -89,7 +93,75 @@ export default function Weather() {
               </div>
             </div>
 
-            <div className="weather-forecast"></div>
+            <div id="forecast" className="row">
+              <h3 className="text-center mb-3"> 6 Day Forecast</h3>
+              <div className="col-2">
+                <div className="weather-forecast-date">
+                  Monday
+                  <ReactAnimatedWeather
+                    icon="CLEAR_DAY"
+                    color="greenyellow"
+                    size="40px"
+                  />
+                  <div>55°F</div>
+                </div>
+              </div>
+              <div className="col-2 mb-3">
+                <div className="weather-forecast-date">
+                  Tuesday
+                  <ReactAnimatedWeather
+                    icon="RAIN"
+                    color="greenyellow"
+                    size="40px"
+                  />
+                  <div>51°F</div>
+                </div>
+              </div>
+              <div className="col-2 mb-3">
+                <div className="weather-forecast-date">
+                  Wednesday
+                  <ReactAnimatedWeather
+                    icon="WIND"
+                    color="greenyellow"
+                    size="40px"
+                  />
+                  <div>49°F</div>
+                </div>
+              </div>
+              <div className="col-2 mb-3">
+                <div className="weather-forecast-date">
+                  Thursday
+                  <ReactAnimatedWeather
+                    icon="CLEAR_DAY"
+                    color="greenyellow"
+                    size="40px"
+                  />
+                  <div>58°F</div>
+                </div>
+              </div>
+              <div className="col-2 mb-3">
+                <div className="weather-forecast-date">
+                  Friday
+                  <ReactAnimatedWeather
+                    icon="CLEAR_DAY"
+                    color="greenyellow"
+                    size="40px"
+                  />
+                  <div>56°F</div>
+                </div>
+              </div>
+              <div className="col-2 mb-3">
+                <div className="weather-forecast-date">
+                  Saturday
+                  <ReactAnimatedWeather
+                    icon="FOG"
+                    color="greenyellow"
+                    size="40px"
+                  />
+                  <div>52°F</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
