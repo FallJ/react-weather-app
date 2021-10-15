@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 
 import "./Weather.css";
 import WeatherInfo from "./WeatherInfo";
-import WeatherForecast from "./WeatherForcast";
+
 
 export default function Weather(props) {
   const [weatherData, setWeatherData] = useState({ ready: false });
@@ -62,7 +62,7 @@ export default function Weather(props) {
           </div>
         </form>
         <WeatherInfo data={weatherData} />
-        <WeatherForecast coordinates={weatherData.coordinates} />
+        
       </div>
     );
   } else {
