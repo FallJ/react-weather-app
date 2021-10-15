@@ -1,178 +1,72 @@
 import React, { useState } from "react";
 import axios from "axios";
-import 'bootstrap/dist/css/bootstrap.css';
-import ReactAnimatedWeather from "react-animated-weather";
+import "bootstrap/dist/css/bootstrap.css";
 
 import "./Weather.css";
+import WeatherInfo from "./WeatherInfo";
+import WeatherForecast from "./WeatherForcast";
 
-export default function Weather() {
-  const [temperature, setTemperature] = useState("");
-  const [city, setCity] = useState("");
-  const [description, setDescription] = useState("");
-  const [humidity, setHumidity] = useState("");
-  const [wind, setWind] = useState("");
-  const [icon, setIcon] = useState("");
-  let iconImg = `http://openweathermap.org/img/wn/${icon}@2x.png`;
-
-  function searchCity(event) {
-    event.preventDefault();
-    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=a906446d03e88c127f9d85a4e9cd44be`;
-    axios.get(url).then(showTemperature);
-  }
-
-  function showTemperature(response) {
-    setTemperature(Math.round(response.data.main.temp));
-    setDescription(response.data.weather[0].description);
-    setWind(response.data.wind.speed);
-    setHumidity(response.data.main.humidity);
-    setIcon(response.data.weather[0].icon);
-  }
+export default function Weather(props) {
+  const [weatherData, setWeatherData] = useState({ ready: false });
+  const [city, setCity] = useState(props.defaultCity);
+  
 
   function handleSubmit(event) {
+    event.preventDefault();
+    search();
+  }
+  function search() {
+    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=a906446d03e88c127f9d85a4e9cd44be`;
+    axios.get(url).then(handleResponse);
+  }
+
+  function handleResponse(response) {
+    setWeatherData({
+      ready: true,
+      coordinates: response.data.coord,
+      temperature: response.data.main.temp,
+      humidity: response.data.main.humidity,
+      date: new Date(response.data.dt * 1000),
+      description: response.data.weather[0].description,
+      icon: response.data.weather[0].icon,
+      wind: response.data.wind.speed,
+      city: response.data.name,
+    });
+  }
+
+  function searchCity(event) {
     setCity(event.target.value);
   }
 
-  function displayForecast() {
-  if (temperature) {
-      return (
-        <ul className="current-forecast">
-          <li className="ps-2 pe-2">Temperature: {temperature}°F</li>
-          <li className="desc ps-2 pe-2">Description: {description}</li>
-          <li className="ps-2 pe-2">Wind: {wind} m/h</li>
-          <li className="ps-2 pe-2">Humidity: {humidity}%</li>
-          <li className="ps-2">
-            <img src={iconImg} />
-          </li>
-        </ul>
-      );
-      } else {
-          return (
-            <div>
-            <h5 className="text-center">Current Forecast</h5>
-            <ul className="current-forecast">
-            <li className="pe-3">Temperature: 65°F</li>
-              <li className="ps-3 pe-3">Description: Overcast Clouds </li>
-              <li className="ps-3 pe-3">Wind: 2 m/h</li>
-              <li className="ps-3">Humidity: 5%</li>
-            </ul>
-            </div>
-          );
-      }
-  }
-
-  return (
-    <div className="Weather">
-      <div className="weather-app-wrapper">
-        <div className="weather-app">
-          <form class="mb-3">
-            <div className="row">
-              <div className="col-9">
-                <input
-                  type="search"
-                  placeholder="Type a city..."
-                  className="form-control"
-                  autoComplete="off"
-                  onChange={handleSubmit}
-                />
-              </div>
-              <div className="col-3">
-                <input
-                  type="submit"
-                  value="search"
-                  className="btn btn-primary w-100"
-                  onClick={searchCity}
-                />
-              </div>
-            </div>
-          </form>
-          <div className="overview"></div>
+  if (weatherData.ready) {
+    return (
+      <div className="Weather">
+        <form onSubmit={handleSubmit}>
           <div className="row">
-            <div className="col-6">
-              <div className="d-flex weather-temperature">
-                {displayForecast()}
-              </div>
+            <div className="col-9">
+              <input
+                type="search"
+                placeholder="Enter a city.."
+                className="form-control"
+                autoFocus="on"
+                onChange={searchCity}
+              />
             </div>
-
-            <div id="forecast" className="row">
-              <h3 className="text-center mb-3"> 6 Day Forecast</h3>
-              <div className="col-2">
-                <div className="weather-forecast-date">
-                  Monday
-                  <ReactAnimatedWeather
-                    icon="CLEAR_DAY"
-                    color="greenyellow"
-                    size="40px"
-                  />
-                  <div>55°F</div>
-                </div>
-              </div>
-              <div className="col-2 mb-3">
-                <div className="weather-forecast-date">
-                  Tuesday
-                  <ReactAnimatedWeather
-                    icon="RAIN"
-                    color="greenyellow"
-                    size="40px"
-                  />
-                  <div>51°F</div>
-                </div>
-              </div>
-              <div className="col-2 mb-3">
-                <div className="weather-forecast-date">
-                  Wednesday
-                  <ReactAnimatedWeather
-                    icon="WIND"
-                    color="greenyellow"
-                    size="40px"
-                  />
-                  <div>49°F</div>
-                </div>
-              </div>
-              <div className="col-2 mb-3">
-                <div className="weather-forecast-date">
-                  Thursday
-                  <ReactAnimatedWeather
-                    icon="CLEAR_DAY"
-                    color="greenyellow"
-                    size="40px"
-                  />
-                  <div>58°F</div>
-                </div>
-              </div>
-              <div className="col-2 mb-3">
-                <div className="weather-forecast-date">
-                  Friday
-                  <ReactAnimatedWeather
-                    icon="CLEAR_DAY"
-                    color="greenyellow"
-                    size="40px"
-                  />
-                  <div>56°F</div>
-                </div>
-              </div>
-              <div className="col-2 mb-3">
-                <div className="weather-forecast-date">
-                  Saturday
-                  <ReactAnimatedWeather
-                    icon="FOG"
-                    color="greenyellow"
-                    size="40px"
-                  />
-                  <div>52°F</div>
-                </div>
-              </div>
+            <div className="col-3">
+              <input
+                type="submit"
+                value="Search"
+                className="btn btn-primary w-100"
+              />
             </div>
           </div>
-        </div>
-
-        <p>
-          {" "}
-          <a href="https://github.com/FallJ/react-weather-app" target="_blank">
-            Open-source code
-          </a>
-          , by Julie Fallan
-        </p>
+        </form>
+        <WeatherInfo data={weatherData} />
+        <WeatherForecast coordinates={weatherData.coordinates} />
       </div>
-    </div>
-  );
+    );
+  } else {
+    search();
+    return "Loading...";
+  }
 }

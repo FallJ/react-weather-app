@@ -1,17 +1,25 @@
-import logo from "./logo.svg";
 import "./App.css";
 import Weather from "./Weather";
 
-
-function App() {
+export default function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        
-        <Weather />
-        </header>
+      <div className="container">
+        <Weather defaultCity="Harrisburg" />
+
+        <footer>
+          This project is
+          {""}
+          <a
+            href="https://github.com/FallJ/react-weather-app"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Open-source code
+          </a>
+          , by Julie Fallan
+        </footer>
+      </div>
     </div>
   );
 }
-
-export default App;
