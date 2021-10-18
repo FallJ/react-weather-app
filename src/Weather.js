@@ -4,12 +4,11 @@ import "bootstrap/dist/css/bootstrap.css";
 
 import "./Weather.css";
 import WeatherInfo from "./WeatherInfo";
-
+import WeatherForecast from "./WeatherForecast";
 
 export default function Weather(props) {
   const [weatherData, setWeatherData] = useState({ ready: false });
   const [city, setCity] = useState(props.defaultCity);
-  
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -62,7 +61,7 @@ export default function Weather(props) {
           </div>
         </form>
         <WeatherInfo data={weatherData} />
-        
+        <WeatherForecast coordinates={weatherData.coordinates} />
       </div>
     );
   } else {
